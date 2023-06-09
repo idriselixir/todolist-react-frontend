@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Todo } from "./Todo";
 import { TodoForm } from "./TodoForm";
 import { v4 as uuidv4 } from "uuid";
@@ -7,47 +7,84 @@ import { EditTodoForm } from "./EditTodoForm";
 export const TodoWrapper = () => {
   const [todos, setTodos] = useState([]);
 
-  const addTodo = (todo) => {
-    setTodos([
-      ...todos,
-      { id: uuidv4(), task: todo, completed: false, isEditing: false },
-    ]);
-  }
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
-  const deleteTodo = (id) => setTodos(todos.filter((todo) => todo.id !== id));
+  const fetchTodos = () => {
+    fetch("http://localhost:9292/todos")
+      .then((response) => response.json())
+      .then((data) => setTodos(data))
+      .catch((error) => console.error(error));
+  };
+
+  const addTodo = (todo) => {
+    const newTodo = { id: uuidv4(), task: todo, completed: false, isEditing: false };
+    fetch("http://localhost:9292/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    })
+      .then((response) => response.json())
+      .then((data) => setTodos(data))
+      .catch((error) => console.error(error));
+  };
+
+  const deleteTodo = (id) => {
+    fetch(`http://localhost:9292/todos/${id}`, { method: "DELETE" })
+      .then((response) => response.json())
+      .then((data) => setTodos(data))
+      .catch((error) => console.error(error));
+  };
+
+  const updateTodo = (id, updatedTask) => {
+    const updatedTodo = { task: updatedTask };
+    fetch(`http://localhost:9292/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTodo),
+    })
+      .then((response) => response.json())
+      .then((data) => setTodos(data))
+      .catch((error) => console.error(error));
+  };
 
   const toggleComplete = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
     );
-  }
+    setTodos(updatedTodos);
+  };
 
   const editTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
-      )
+    const updatedTodos = todos?.map((todo) =>
+      todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
     );
-  }
+    setTodos(updatedTodos);
+  };
 
   const editTask = (task, id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
-      )
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
     );
+    setTodos(updatedTodos);
   };
+
+  console.log("todos:", todos);
+  console.log("typeof todos:", typeof todos);
 
   return (
     <div className="TodoWrapper">
-      <h1>Get Things Done !</h1>
+      <h1>Get Things Done!</h1>
       <TodoForm addTodo={addTodo} />
       {/* display todos */}
-      {todos.map((todo) =>
+      {todos?.map((todo) =>
         todo.isEditing ? (
-          <EditTodoForm editTodo={editTask} task={todo} />
+          <EditTodoForm key={todo.id} editTodo={editTask} task={todo} />
         ) : (
           <Todo
             key={todo.id}
@@ -55,6 +92,7 @@ export const TodoWrapper = () => {
             deleteTodo={deleteTodo}
             editTodo={editTodo}
             toggleComplete={toggleComplete}
+            updateTodo={updateTodo}
           />
         )
       )}
