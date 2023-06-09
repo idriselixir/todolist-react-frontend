@@ -13,7 +13,7 @@ Clone the repository:
 
 shell
 Copy code
-git clone https://github.com/your-username/todo-list-app.git
+git clone https://github.com/idriselixir/todo-list-app.git
 Navigate to the project directory:
 
 shell
@@ -56,26 +56,18 @@ The Todo List app is built using the following technologies:
 React: A JavaScript library for building user interfaces.
 HTML: The standard markup language for creating web pages.
 CSS: A stylesheet language used for describing the presentation of a document.
-Contributions
-Contributions to the Todo List app are welcome! If you find a bug or want to add new features, please follow these steps:
 
 Fork the repository.
 Create a new branch: git checkout -b my-new-feature.
 Make your changes and commit them: git commit -m 'Add some feature'.
 Push to the branch: git push origin my-new-feature.
 Submit a pull request.
-License
+# License
 This project is licensed under the MIT License. Feel free to use and modify the code as per your needs.
 
-If you have any questions or suggestions about the Todo List app, please feel free to contact me at your-email@example.com.
 
-
-
-
-
-User
-add react js  with vite   as technology used
-ChatGPT
+# User
+add react js  with vite 
 Technologies Used
 The Todo List app is built using the following technologies:
 
@@ -87,7 +79,7 @@ Development Setup
 To set up the development environment for the Todo List app, follow the instructions below:
 
 
-Usage
+# Usage
 The tod list application can do the following things
 
 # Add a task:
@@ -103,16 +95,4 @@ Confirm the deletion when prompted.
 # Edit a task:
 
 Locate the task you want to edit in your todo list.
-Click on the "Edit" button next to the task.
-Modify the task title or description in the provided fields.
-Click on the "Save" button to save the changes.
-# Contributions
-Contributions to the Todo List app are welcome! If you find a bug or want to add new features, please follow these steps:
-
-Fork the repository.
-Create a new branch: git checkout -b my-new-feature.
-Make your changes and commit them: git commit -m 'Add some feature'.
-Push to the branch: git push origin my-new-feature.
-Submit a pull request.
-# License
-This project is licensed under the MIT License. Feel free to use and modify the code as per your needs.
+edit it
